@@ -21,6 +21,7 @@ class AnswerFactory extends Factory
         return [
 
             'answer'=>$this->faker->sentence(),
+            'is_correct'=>$this->faker->boolean(),
             'question_id'=>Question::factory(),
             'image_id'=>Image::factory()
 

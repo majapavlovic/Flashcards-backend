@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\QuestionController;
@@ -45,6 +46,12 @@ Route::resource('flashcards/images', ImageController::class)->only(['update', 's
 Route::get('flashcards/questions', [QuestionController::class, 'index']);
 Route::get('flashcards/questions/{question_id}', [QuestionController::class, 'show']);
 Route::resource('flashcards/questions', QuestionController::class)->only(['update', 'store', 'destroy']);
+
+
+//answer routes
+Route::get('flashcards/answers', [AnswerController::class, 'index']);
+Route::get('flashcards/answers/{answer_id}', [AnswerController::class, 'show']);
+Route::resource('flashcards/answers', AnswerController::class)->only(['update', 'store', 'destroy']);
 
 
 

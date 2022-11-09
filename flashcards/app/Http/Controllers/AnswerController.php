@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\QuestionResource;
-use App\Models\Question;
+use App\Http\Resources\AnswerResource;
+use App\Models\Answer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class QuestionController extends Controller
+class AnswerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        return Question::all();
-        // return new QuestionCollection($questions);
-
+        return Answer::all();
     }
 
     /**
@@ -40,43 +38,45 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'question' => 'required',
+            'answer' => 'required|string',
+            'question_id' => 'required',
+            'is_correct' => 'required|boolean',
         ]);
 
         if ($validator->fails())
             return response()->json($validator->errors());
 
-        $question = Question::create([
-            'question' => $request->question,
+        $answer = Answer::create([
+            'answer' => $request->answer,
+            'question_id' => $request->question_id,
+            'is_correct' => $request->is_correct,
             'image_id' => $request->image_id,
-            'category_id' => $request->category_id,
-            'user_id' => $request->user_id,
         ]);
 
-        return response()->json(['Question created successfully.', new QuestionResource($question)]);
+        return response()->json(['Answer created successfully.', new AnswerResource($answer)]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Question  $question
+     * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function show($question_id)
+    public function show($answer_id)
     {
-        $question = Question::find($question_id);
-        if (is_null($question))
+        $answer = Answer::find($answer_id);
+        if (is_null($answer))
             return response()->json('Data not found', 404);
-        return response()->json(new QuestionResource($question));
+        return response()->json(new AnswerResource($answer));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Question  $question
+     * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Question $question)
+    public function edit(Answer $answer)
     {
         //
     }
@@ -85,37 +85,36 @@ class QuestionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Question  $question
+     * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Question $question)
+    public function update(Request $request, Answer $answer)
     {
         $validator = Validator::make($request->all(), [
-            'question' => 'required|string',
-            
+            'answer' => 'required|string',
+            'question_id' => 'required',
+            'is_correct' => 'required|boolean',
         ]);
 
         if ($validator->fails())
             return response()->json($validator->errors());
 
-        $question->question = $request->question;
-        $question->image_id = $request->image_id;
-        $question->category_id = $request->category_id;
-        $question->user_id = $request->user_id;
+        $answer->answer = $request->answer;
+        $answer->question_id = $request->question_id;
+        $answer->is_correct = $request->is_correct;
+        $answer->image_id = $request->image_id;
 
-        return response()->json(['Question created successfully.', new QuestionResource($question)]);        
+        return response()->json(['Answer created successfully.', new AnswerResource($answer)]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Question  $question
+     * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Question $question)
+    public function destroy(Answer $answer)
     {
-        $question->delete();
-
-        return response()->json('Question is deleted successfully.');
+        //
     }
 }
