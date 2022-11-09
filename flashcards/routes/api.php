@@ -44,7 +44,7 @@ Route::resource('flashcards/images', ImageController::class)->only(['update', 's
 //question routes
 Route::get('flashcards/questions', [QuestionController::class, 'index']);
 Route::get('flashcards/questions/{question_id}', [QuestionController::class, 'show']);
-Route::resource('flashcards/question', QuestionController::class)->only(['update', 'store', 'destroy']);
+Route::resource('flashcards/questions', QuestionController::class)->only(['update', 'store', 'destroy']);
 
 
 
