@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
@@ -39,6 +40,11 @@ Route::resource('flashcards/categories', CategoryController::class)->only(['upda
 Route::get('flashcards/images', [ImageController::class, 'index']);
 Route::get('flashcards/images/{image_id}', [ImageController::class, 'show']);
 Route::resource('flashcards/images', ImageController::class)->only(['update', 'store', 'destroy']);
+
+//question routes
+Route::get('flashcards/questions', [QuestionController::class, 'index']);
+Route::get('flashcards/questions/{question_id}', [QuestionController::class, 'show']);
+Route::resource('flashcards/question', QuestionController::class)->only(['update', 'store', 'destroy']);
 
 
 
