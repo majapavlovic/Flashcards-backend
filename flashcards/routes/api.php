@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserQuestionController;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,9 +28,20 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/users', [UserController::class, 'index']);
 
+Route::post('/flashcards/register', [AuthController::class, 'register']);
+
+Route::post('/flashcards/login', [AuthController::class, 'login']);
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/flashcards/profile', function (Request $request) {
+        return auth()->user();
+    });
+    Route::get('/flashcards/users', [UserController::class, 'index']);
+});
+
 
 //user routes
-Route::get('/flashcards/users', [UserController::class, 'index']);
+// Route::get('/flashcards/users', [UserController::class, 'index']);
 Route::get('/flashcards/users/{user_id}', [UserController::class, 'show']);
 
 
@@ -52,6 +65,10 @@ Route::resource('flashcards/questions', QuestionController::class)->only(['updat
 Route::get('flashcards/answers', [AnswerController::class, 'index']);
 Route::get('flashcards/answers/{answer_id}', [AnswerController::class, 'show']);
 Route::resource('flashcards/answers', AnswerController::class)->only(['update', 'store', 'destroy']);
+
+//user-post routes
+Route::get('flashcards/users/{id}/questions', [UserQuestionController::class, 'index'])->name('users.questions.index');
+Route::resource('flashcards.users.questions', UserQuestionController::class)->only('index');
 
 
 
