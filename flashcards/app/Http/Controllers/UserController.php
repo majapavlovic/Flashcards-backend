@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -74,7 +75,20 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+
+        $validator = Validator::make($request->all(), [
+            'role' => 'required|string',
+            
+        ]);
+
+        if ($validator->fails())
+            return response()->json($validator->errors());
+
+        $user->role = $request->role;
+        
+        $user->save();
+
+        return response()->json(['User role changed successfully.', new UserResource($user)]);
     }
 
     /**
@@ -85,6 +99,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return response()->json('User is deleted successfully.');
     }
 }

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('answer');
             $table->timestamps();
             $table->foreignId('question_id');
-            $table->foreignId('image_id')->nullable();
         });
     }
 

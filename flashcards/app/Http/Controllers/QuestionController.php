@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\QuestionResource;
+use App\Models\Answer;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class QuestionController extends Controller
@@ -114,8 +116,18 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
+        $answers = DB::table('answers')->select('id')->where('answers.question_id', $question->id)->get()->toArray();
+        
         $question->delete();
 
+        if(!is_null($answers)) {       
+            foreach($answers as $answer) {
+                // return $answer->id;
+                 $an = Answer::find($answer->id);
+                 $an->delete();
+                // (new AnswerController)->destroy($an);
+            }
+        }
         return response()->json('Question is deleted successfully.');
     }
 }

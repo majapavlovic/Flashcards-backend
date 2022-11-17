@@ -62,15 +62,12 @@ class DatabaseSeeder extends Seeder
 
         Answer::factory()->create([
             'question_id'=>$q1->id,
-            'image_id'=>$img2->id,
         ]);
         Answer::factory()->create([
             'question_id'=>$q2->id,
-            'image_id'=>$img2->id,
         ]);
         Answer::factory()->create([
             'question_id'=>$q3->id,
-            'image_id'=>$img2->id,
         ]);
     }
 }

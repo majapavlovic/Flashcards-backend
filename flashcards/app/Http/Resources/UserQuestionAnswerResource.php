@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AnswerResource extends JsonResource
+class UserQuestionAnswerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -12,14 +12,8 @@ class AnswerResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public static $wrap = 'answer';
     public function toArray($request)
     {
-        return [
-            'id' => $this->resource->id,
-            'answer' => $this->resource->answer,
-            'question' => $this->resource->question,
-            'is_correct' => $this->resource->is_correct
-        ];
+        return parent::toArray($request);
     }
 }

@@ -37,10 +37,11 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
+        $res = $request->file('file')->store('uploadedImages');
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'file_path' => 'required|string|url'
+            'name' => 'string|max:255',
+            'description' => 'string|max:255',
         ]);
 
         if ($validator->fails())
@@ -49,11 +50,10 @@ class ImageController extends Controller
         $image = Image::create([
             'name' => $request->name,
             'description' => $request->description,
-            'file_path' => $request->file_path
+            'file_path' => $res
 
         ]);
-
-        return response()->json(['Image created successfully.', new ImageResource($image)]);
+        return response()->json(['success'=>true , 'message'=>'Image created successfully.', 'image'=>new ImageResource($image)]);
     }
 
     /**
@@ -90,22 +90,22 @@ class ImageController extends Controller
      */
     public function update(Request $request, Image $image)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'file_path' => 'required|string|url'
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'name' => 'string|max:255',
+        //     'description' => 'required|string|max:255',
+        //     'file_path' => 'required|string|url'
+        // ]);
 
-        if ($validator->fails())
-            return response()->json($validator->errors());
+        // if ($validator->fails())
+        //     return response()->json($validator->errors());
 
-        $image->name = $request->name;
-        $image->description = $request->description;
-        $image->file_path = $request->file_path;
+        // $image->name = $request->name;
+        // $image->description = $request->description;
+        // $image->file_path = $request->file_path;
     
-        $image->save();
+        // $image->save();
 
-        return response()->json(['Image is updated successfully.', new ImageResource($image)]);
+        // return response()->json(['Image is updated successfully.', new ImageResource($image)]);
     }
 
     /**

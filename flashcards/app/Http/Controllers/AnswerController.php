@@ -50,7 +50,6 @@ class AnswerController extends Controller
             'answer' => $request->answer,
             'question_id' => $request->question_id,
             'is_correct' => $request->is_correct,
-            'image_id' => $request->image_id,
         ]);
 
         return response()->json(['Answer created successfully.', new AnswerResource($answer)]);
@@ -102,7 +101,6 @@ class AnswerController extends Controller
         $answer->answer = $request->answer;
         $answer->question_id = $request->question_id;
         $answer->is_correct = $request->is_correct;
-        $answer->image_id = $request->image_id;
 
         return response()->json(['Answer created successfully.', new AnswerResource($answer)]);
     }
@@ -115,6 +113,8 @@ class AnswerController extends Controller
      */
     public function destroy(Answer $answer)
     {
-        //
+        $answer->delete();
+
+        return response()->json('Answer is deleted successfully.');
     }
 }
