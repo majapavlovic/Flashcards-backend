@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ImageResource;
 use App\Models\Image;
+use Illuminate\Foundation\Console\StorageLinkCommand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ImageController extends Controller
 {
@@ -37,12 +40,14 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        $res = $request->file('file')->store('uploadedImages');
+        $res = $request->file('file')->store('public');
+        $resStr = Str::substr($res, 6);
 
         $validator = Validator::make($request->all(), [
             'name' => 'string|max:255',
             'description' => 'string|max:255',
         ]);
+
 
         if ($validator->fails())
             return response()->json($validator->errors());
@@ -50,12 +55,12 @@ class ImageController extends Controller
         $image = Image::create([
             'name' => $request->name,
             'description' => $request->description,
-            'file_path' => $res
-
+            'file_path' => $resStr
         ]);
+        
         return response()->json(['success'=>true , 'message'=>'Image created successfully.', 'image'=>new ImageResource($image)]);
     }
-
+   
     /**
      * Display the specified resource.
      *
