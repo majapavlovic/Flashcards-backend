@@ -45,7 +45,6 @@ class ImageController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'string|max:255',
-            'description' => 'string|max:255',
         ]);
 
 
